@@ -115,10 +115,8 @@ export default {
           execute: 'contracts/mailbox/postInvite',
           description: `Send Invite to Mailbox for ${member.state.attributes.name}`,
           args: {
-            Events: 'Events',
-            backend: 'backend',
             mailboxId: `${member.state.attributes.name}Mailbox`,
-            sentDate: 'sentDate',
+            sentDate: 'voteDate',
             groupName: 'groupName',
             groupId: 'groupId'
           }
@@ -127,8 +125,6 @@ export default {
           execute: 'contracts/group/recordInvite',
           description: `Record Invite Sent to ${member.state.attributes.name}`,
           args: {
-            Events: 'Events',
-            backend: 'backend',
             inviteHash: `lastInviteHash`,
             sentDate: 'voteDate',
             username: member.state.attributes.name,

@@ -112,10 +112,8 @@ export default {
         let mailboxHash = mailbox.toHash()
         let userHash = user.toHash()
 
-        // Do this mutation first in order to have events correctly save
-        this.$store.commit('login', {name: this.name, identityContractId: userHash})
         await sbp('transactions/run', 'Register a New User', true, [
-          { execute: 'setInScope', args: { mailbox, userHash, mailboxHash, user, name: this.name } },
+          { execute: 'setInScope', args: { mailbox, userHash, mailboxHash, user, name: this.name, mailboxAttribute: 'mailbox' } },
           { execute: 'backend/publishLogEntry', description: 'Create User Identity Contract', args: { contractId: 'userHash', entry: 'user' } },
           { execute: 'backend/publishLogEntry', description: 'Create Mailbox Contract', args: { contractId: 'mailboxHash', entry: 'mailbox' } },
           { execute: 'contracts/identity/setAttribute', description: 'Set Mailbox Attribute', args: { contractId: 'userHash', name: 'mailboxAttribute', value: 'mailboxHash' } },

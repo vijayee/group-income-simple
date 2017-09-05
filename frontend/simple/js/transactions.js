@@ -70,7 +70,7 @@ export class Transaction {
       for (let argPair of Object.entries(currentStep.args)) {
         args[argPair[0]] = scope[argPair[1]]
       }
-      args.setInScope = this.setInScope
+      args.setInScope = this.setInScope.bind(this)
       // Attempt to run step
       try {
         await sbp(currentStep.execute, args)
@@ -246,7 +246,6 @@ const api = {
         // You may set variables with an array of names/value or a single name/value
         if (step.execute === 'setInScope') {
           for (let key of Object.keys(step.args)) {
-            console.log(key, step.args[key])
             transaction.setInScope(key, step.args[key])
           }
         } else {

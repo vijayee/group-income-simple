@@ -53,7 +53,7 @@ export default {
         await sbp('transactions/run', `Vote For Proposal ${this.$route.query.proposalHash}`, true, [
           { execute: 'setInScope', args: { username: this.$store.state.loggedIn.name, proposalHash: this.$route.query.proposalHash, groupId: this.$route.query.groupId } },
           {
-            execute: 'contracts/identity/voteForProposal',
+            execute: 'contracts/group/voteForProposal',
             description: `Vote For Proposal ${this.$route.query.proposalHash}`,
             args: {
               username: 'username',

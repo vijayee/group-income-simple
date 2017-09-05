@@ -146,6 +146,8 @@ describe('Frontend', function () {
     it('Test Logout and Login', async function () {
       this.timeout(10000)
       const loggedin = await n
+        .click('#OpenProfileDropDown')
+        .wait('#LogoutBtn')
         .click('#LogoutBtn')
         .wait('#LoginBtn')
         .click('#LoginBtn')

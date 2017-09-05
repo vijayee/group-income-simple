@@ -66,9 +66,9 @@ export class GroupContract extends Events.HashableGroup {
       },
       // TODO: remove group profile when leave group is implemented
       HashableGroupSetGroupProfile (state, {data}) {
-        data = JSON.parse(data.json) // TODO: data.json? why not just data? what else is in there?
+        let attributes = JSON.parse(data.json) // TODO: data.json? why not just data? what else is in there?
         var {groupProfile} = state.profiles[data.username]
-        state.profiles[data.username].groupProfile = _.merge(groupProfile, data)
+        state.profiles[data.username].groupProfile = _.merge(groupProfile, attributes)
       }
     },
     // !! IMPORANT!!
@@ -139,17 +139,6 @@ const api = {
     let attribute = new Events.HashableIdentitySetAttribute({attribute: {name, value}}, latestHash)
     await backend.publishLogEntry(contractId, attribute)
   },
-  '/group/saveGroupProfile ': async function ({contractId, username, profile}) {
-    let latestHash = await backend.latestHash(contractId)
-    let profileEntry = new Events.HashableGroupSetGroupProfile(
-      {
-        username: username,
-        json: JSON.stringify(profile)
-      },
-      latestHash
-    )
-    await backend.publishLogEntry(contractId, profileEntry)
-  },
   '/group/saveGroupProfile': async function ({contractId, username, profile}) {
     let latestHash = await backend.latestHash(contractId)
     let profileEntry = new Events.HashableGroupSetGroupProfile(
@@ -161,16 +150,18 @@ const api = {
     )
     await backend.publishLogEntry(contractId, profileEntry)
   },
-  '/group/acceptInvite': async function ({contractId, username, profile}) {
+  '/group/acceptInvite': async function ({contractId, identityContractId, inviteHash, username, acceptanceDate}) {
     let latestHash = await backend.latestHash(contractId)
-    let profileEntry = new Events.HashableGroupSetGroupProfile(
+    let acceptance = new Events.HashableGroupAcceptInvitation(
       {
-        username: username,
-        json: JSON.stringify(profile)
+        username,
+        identityContractId,
+        inviteHash,
+        acceptanceDate
       },
       latestHash
     )
-    await backend.publishLogEntry(contractId, profileEntry)
+    await backend.publishLogEntry(contractId, acceptance)
   },
   '/group/declineInvite': async function ({contractId, username, inviteHash, declinedDate}) {
     let latestHash = await backend.latestHash(contractId)

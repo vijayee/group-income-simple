@@ -229,7 +229,7 @@ export default {
           let state = await latestContractState(recipient.contractId)
           let args = {}
           args[`${recipient}ContractId`] = state.attributes.mailbox
-          steps.add({ execute: 'setInScope', args })
+          steps.push({ execute: 'setInScope', args })
           steps.push({
             execute: 'contracts/mailbox/sendMail',
             description: `Send Messagage to ${this.recipients[i]}`,

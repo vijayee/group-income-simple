@@ -161,10 +161,8 @@ export default {
         for (let member of this.members) {
           // We need to have the latest mailbox attribute for the user
           let args = {}
-          console.log(member.state.attributes.name)
           args[`${member.state.attributes.name}Mailbox`] = member.state.attributes.mailbox
           args[member.state.attributes.name] = member.state.attributes.name
-          console.log(args)
           steps.push({ execute: 'setInScope', args: args })
           steps.push({
             execute: 'contracts/mailbox/postInvite',
